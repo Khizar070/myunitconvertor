@@ -80,23 +80,3 @@ if st.button('Convert 🔄'):
     result = convert_units(value, from_unit, to_unit, category)
     if result is not None:
         st.success(f"🎯 {value} {from_unit} = {result:.8f} {to_unit}")
-
-        # Enhanced visualization
-        data = {'Units': [from_unit, to_unit], 'Values': [value, result]}
-        fig = px.bar(data, x='Units', y='Values', color='Units', 
-                    title='Conversion Comparison',
-                    template='plotly_dark',
-                    labels={'Values': 'Value', 'Units': 'Unit Type'})
-        fig.update_layout(showlegend=False)
-        st.plotly_chart(fig, use_container_width=True)
-
-        # Store history with timestamp
-        if 'history' not in st.session_state:
-            st.session_state.history = []
-        st.session_state.history.append((datetime.now().strftime('%Y-%m-%d %H:%M:%S'), value, from_unit, result, to_unit))
-
-# Show enhanced history
-if 'history' in st.session_state and st.session_state.history:
-    st.header('📜 Recent Conversions')
-    for record in reversed(st.session_state.history[-5:]):
-        st.write(f"🕒 {record[0]}: {record[1]} {record[2]} ➡️ {record[3]:.8f} {record[4]}")
